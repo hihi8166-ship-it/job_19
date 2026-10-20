@@ -1,0 +1,18 @@
+from flask import Flask, render_template, request
+from scrapper import search_incruit
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+@app.route("/search")
+def search():
+    keyword = request.args.get("keyword")
+    jobs = search_incruit()
+    data = "19기 어플리케이션 과정"
+    return render_template("search.html", data=data, keyword=keyword, jobs=jobs)
+
+if __name__ == '__main__':
+    app.run(debug=True) 
