@@ -1,18 +1,7 @@
-<html>                                              <!-- html 문서 시작 -->
-    <head></head>                                   <!-- 문서의 제목/설정 등을 넣는 곳 -->
-    <body>                                          <!-- 화면에 표시할 내용 -->
-        <h1>안녕하세요 잡스크래퍼입니다.</h1>           <!-- <h1> : 가장 큰 제목, </h1> : 제목 끝 -->
-        <form action="/search">                         <!-- 사용자가 입력한 정보를 제출하기 위한 영역 -->
-            <input type="text" name="keyword" />        <!-- input type="text" : 문자를 입력할 수 있는 검색창을 만드는 코드 -->
-                                                        <!-- name="keyword" : 사용자가 입력한 값에 keyword 이름 붙여서 서버로 전달 -->
-            <button>검색하기</button>                    <!-- 버튼을 만드는 코드 -->
-        </form>
-    </body>                                         <!-- 화면 내용 끝 -->
-</html>                                             <!-- 문서 끝 -->
-
-<!-- 파이썬의 print() 는 터미널에 출력하지만, html의 <h1>은 웹페이지에 제목을 표시 -->
-<!-- 19_job 에서 app.py : 웹서버 담당 -->
-<!-- templates에 index.html : 화면담당 / search.html : 검색 결과 화면용 -->
-<!--# (Flask는 기본적으로 templates 폴더에서 html 파일을 찾으므로 index.html은 templates 폴더 안에 넣어야됨) -->
-<!-- scrapper.py : 채용정보 수집 담당 -->
-
+﻿{% extends "base.html" %}
+{% block content %}
+<section class="hero"><p class="eyebrow">YOUR NEXT CHAPTER</p><h1>새로운 가능성,<br>좋은 일자리에서 시작하세요<span>.</span></h1><p class="description">관심 있는 키워드 하나로, 나에게 맞는 채용 공고를 만나보세요.</p>
+<form action="/search" class="search-box" role="search"><label class="sr-only" for="keyword">채용 검색어</label><input id="keyword" name="keyword" required placeholder="직무, 기술, 회사명으로 검색해 보세요" maxlength="100"><button>공고 검색 →</button></form>
+<div class="keywords"><span>추천 검색어</span>{% for word in ['파이썬','프론트엔드','백엔드','데이터 분석'] %}<a href="{{ url_for('search', keyword=word) }}">{{ word }}</a>{% endfor %}</div></section>
+<section class="features"><article><small>01 / SEARCH</small><h2>관심 있는 일을 찾고</h2><p>직무부터 사용하고 싶은 기술까지.<br>원하는 키워드로 검색하세요.</p></article><article><small>02 / DISCOVER</small><h2>기회를 한눈에 살펴보고</h2><p>회사명, 채용 제목, 근무 지역을<br>깔끔한 목록에서 확인하세요.</p></article><article><small>03 / NEXT STEP</small><h2>다음 커리어로 한 걸음</h2><p>마음에 드는 공고를 발견했다면<br>원문에서 자세한 내용을 만나보세요.</p></article></section>
+{% endblock %}

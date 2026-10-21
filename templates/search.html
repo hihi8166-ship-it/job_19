@@ -1,31 +1,12 @@
-<html>
-    <head></head>
-    <body>
-        <h1>{{ data }} 잡서치결과 페이지입니다.</h1>
-        
-    
-        <table>
-            <thead>
-                <tr>
-                    <th>순번</th>
-                    <th>회사명</th>
-                    <th>공고제목</th>
-                    <th>회사위치</th>
-                    <th>상세보기</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for index, job in jobs %}
-                <tr>
-                    <td>{{ index + 1 }}</td>
-                    <td>{{ job["company"] }}</td>
-                    <td>{{ job["title"] }}</td>
-                    <td>{{ job["location"] }}</td>
-                    <td>{{ job["link"] }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-    </body>
-</html>
+﻿{% extends "base.html" %}
+{% block title %}{{ keyword or '채용' }} 검색 결과 · 잡서치{% endblock %}
+{% block content %}
+{% set results = jobs | list %}
+<section class="results-top"><p class="eyebrow">FIND YOUR OPPORTUNITY</p><h1>어떤 일을 찾고 계세요?</h1><form action="/search" class="search-box" role="search"><label class="sr-only" for="keyword">채용 검색어</label><input id="keyword" name="keyword" value="{{ keyword or '' }}" required placeholder="직무, 기술, 회사명 검색" maxlength="100"><button>검색 →</button></form></section>
+<section class="results"><div class="results-heading"><div><h2>‘{{ keyword or '채용' }}’ 검색 결과 <em>{{ results | length }}</em></h2><p>이번 검색에서 수집한 채용 공고입니다.</p></div><span>채용 정보 · 인크루트</span></div><div class="job-list"><div class="list-head"><span>기업 정보</span><span>채용 공고</span><span>근무 지역</span><span>공고 확인</span></div>
+{% for index, job in results %}
+<article class="job-row"><div class="company"><span class="avatar" aria-hidden="true">{{ job.company[:1] }}</span><strong>{{ job.company }}</strong></div><div class="job-info"><small>채용 공고 · {{ '%02d' | format(index + 1) }}</small><h3>{{ job.title }}</h3></div><div class="location">{{ job.location or '공고에서 확인' }}</div>
+{% set link = job.link or '' %}
+{% if link.startswith('https://') or link.startswith('http://') %}<a class="detail" href="{{ link }}" target="_blank" rel="noopener noreferrer" aria-label="{{ job.company }} 공고 보기 (새 창)">공고 보기 ↗</a>{% elif link.startswith('/') and not link.startswith('//') %}<a class="detail" href="{{ 'https://job.incruit.com' ~ link }}" target="_blank" rel="noopener noreferrer">공고 보기 ↗</a>{% else %}<span class="location">링크 없음</span>{% endif %}</article>
+{% else %}<div class="empty"><h3>검색된 채용 공고가 없습니다</h3><p>다른 직무나 기술 키워드로 다시 검색해 보세요.</p><a href="/">검색 홈으로 돌아가기 →</a></div>{% endfor %}</div><p class="note">채용 일정과 지원 조건은 각 공고의 원문에서 확인해 주세요.</p></section>
+{% endblock %}
