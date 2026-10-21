@@ -1,11 +1,11 @@
 import requests  # import : 라이브러리 가져오기
 from bs4 import BeautifulSoup    # bs4 라는 라이브러리에서 beautifulsoup 기능을 가져온다.
 
-keyword = "파이썬" # 1. 검색어 설정
-pages = 5
-jobs = []
+# keyword = "파이썬" # 1. 검색어 설정
+# pages = 5
 
-def search_incruit():
+def search_incruit(keyword, pages=1):
+    jobs = []
 
     for i in range(pages): # 1~5 페이지까지 받아오기
         page = i * 30
